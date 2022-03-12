@@ -1,0 +1,5 @@
+trusted_cidr        = ["272.30.263.51/32","199.209.51.50/32","168.126.204.189/32","10.0.0.0/8"]
+owner               = "Remo Mattei"
+private_gen_key_pem = "./privatekey.pem"
+git_raw_url      = "https://raw.githubusercontent.com/itlinux/avi-ctl-terraform/master/files/userdata.json"
+admin_password   = "thisismyverysecurepasswordforthe22"
