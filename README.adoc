@@ -28,7 +28,7 @@ This is because of the limit IP allowed in that blueprint.
 
  a deployment of two blocks. 
 
- ----
+----
 ❯ tf output
 VPC_Name = [
   "bdba-k8s",
