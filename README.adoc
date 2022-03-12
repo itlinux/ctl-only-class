@@ -25,3 +25,39 @@ This is because of the limit IP allowed in that blueprint.
 == Avi Controller
 
  It deploys Avi Controller with the config of the basic with NTP, SMTP, admin password and backup password. Still missing a few more options, but it will create a sep VPC, network and subnets for each.
+
+ a deployment of two blocks. 
+
+ ----
+❯ tf output
+VPC_Name = [
+  "bdba-k8s",
+  "dd7f-k8s",
+]
+VPC_id = [
+  "vpc-09bba6b796c6570a6",
+  "vpc-0af68bcb50970c1de",
+]
+avi-controller_private_ip = [
+  "10.0.1.50",
+  "10.0.1.109",
+  "10.0.2.55",
+  "10.0.2.119",
+]
+avi-controller_public_dns_name = [
+  "ec2-130-57-104-50.us-west-2.compute.amazonaws.com",
+  "ec2-180-144-139-197.us-west-2.compute.amazonaws.com",
+  "ec2-52-53-193-160.us-west-2.compute.amazonaws.com",
+  "ec2-54-241-111-73.us-west-2.compute.amazonaws.com",
+]
+avi-controller_public_ip = [
+  "130.57.104.50",
+  "180.144.139.197",
+  "52.53.193.160",
+  "54.241.111.73",
+]
+aws_subnet = [
+  "bdba-k8s",
+  "dd7f-k8s",
+]
+----
