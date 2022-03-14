@@ -60,3 +60,9 @@ variable "ami-image" {
 variable "base_cidr_block" {
   default = "10.0.0.0/16"
 }
+variable "sg_ports" {
+  type        = list(number)
+  description = "list of ingress ports"
+  default     = [22, 443,80, 8443, 123]
+}
+
