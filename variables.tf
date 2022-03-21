@@ -1,12 +1,13 @@
+
 variable "trusted_cidr" {
   description = "cidr block of addresses trusted for access to the kubernetes API server"
 }
 variable "number_of_clusters" {
   description = "This will be used as an Avi Controller count as well"
-  default     = 2
+  default     = 1
 }
 variable "avi_controller" {
-  default = 2
+  default = 1
 }
 variable "availability_zone" {
   default = "us-west-1a"
@@ -15,13 +16,11 @@ variable "availability_zone" {
 variable "region" {
   default = "us-west-1"
 }
-
 variable "generated_key_name" {
   type        = string
-  default     = "ctl-k8s-genkey"
+  default     = "ctl-remo-key"
   description = "Keypair gen by Terraform"
 }
-
 variable "owner" {
   default = "Remo Mattei"
 }
@@ -42,7 +41,7 @@ variable "department_name" {
   default = "FSA TEAM"
 }
 variable "iam_profile" {
-  default = "remo-avi-controller"
+  default = "2022-00-AviController-Refined-Role"
 }
 variable "image-size" {
   description = "Image size"
@@ -62,7 +61,14 @@ variable "base_cidr_block" {
 }
 variable "sg_ports" {
   type        = list(number)
-  description = "list of ingress ports"
-  default     = [22, 443,80, 8443, 123]
+  description = "list of TCP ingress ports"
+  default     = [22, 443, 80, 8443, 123]
 }
-
+variable "sg_ports_udp" {
+  type        = list(number)
+  description = "list of UDP ingress ports"
+  default     = [53]
+}
+variable "UDP_Ports_IP_ALLOWED" {
+  default = ["0.0.0.0/0"]
+}

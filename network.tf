@@ -52,7 +52,7 @@ resource "aws_security_group" "controller" {
   description = "Allow necessary controller traffic"
   vpc_id      = aws_vpc.main[count.index].id
 
-dynamic "ingress" {
+  dynamic "ingress" {
     for_each = var.sg_ports
     iterator = port
     content {
@@ -62,6 +62,16 @@ dynamic "ingress" {
       cidr_blocks = var.trusted_cidr
     }
   }
+  dynamic "ingress" {
+    for_each = var.sg_ports_udp
+    iterator = port
+    content {
+      from_port   = port.value
+      to_port     = port.value
+      protocol    = "udp"
+      cidr_blocks = var.UDP_Ports_IP_ALLOWED
+    }
+  }
   ingress {
     description = "all-internal"
     from_port   = 0
@@ -69,7 +79,7 @@ dynamic "ingress" {
     protocol    = -1
     cidr_blocks = [aws_vpc.main[count.index].cidr_block]
   }
-    ingress {
+  ingress {
     from_port   = "-1"
     to_port     = "-1"
     protocol    = "ICMP"
@@ -82,7 +92,7 @@ dynamic "ingress" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags    = {
+  tags = {
     Name  = "controller_sg"
     owner = var.owner
   }
