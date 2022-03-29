@@ -7,14 +7,14 @@ resource "aws_vpc" "main" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = format("%s-k8s", random_id.id[count.index].hex)
+    Name = format("%s-ceots2022", random_id.id[count.index].hex)
   }
 }
 resource "aws_internet_gateway" "igw" {
   count  = var.number_of_clusters
   vpc_id = aws_vpc.main[count.index].id
   tags = {
-    Name = format("%s-k8s", random_id.id[count.index].hex)
+    Name = format("%s-coets2022", random_id.id[count.index].hex)
   }
 }
 resource "aws_subnet" "main" {
@@ -24,7 +24,7 @@ resource "aws_subnet" "main" {
   availability_zone = var.availability_zone
 
   tags = {
-    Name = format("%s-k8s", random_id.id[count.index].hex)
+    Name = format("%s-ceots2022", random_id.id[count.index].hex)
   }
 }
 
@@ -36,7 +36,7 @@ resource "aws_route_table" "main" {
     gateway_id = aws_internet_gateway.igw[count.index].id
   }
   tags = {
-    Name = format("%s-k8s", random_id.id[count.index].hex)
+    Name = format("%s-coets2022", random_id.id[count.index].hex)
   }
 }
 resource "aws_route_table_association" "subnet-association" {
@@ -62,27 +62,37 @@ dynamic "ingress" {
       cidr_blocks = var.trusted_cidr
     }
   }
-  ingress {
+dynamic "ingress" {
+    for_each = var.sg_ports_udp
+    iterator = port
+    content {
+      from_port   = port.value
+      to_port     = port.value
+      protocol    = "udp"
+      cidr_blocks = var.UDP_Ports_IP_ALLOWED
+    }
+  }
+ingress {
     description = "all-internal"
     from_port   = 0
     to_port     = 0
     protocol    = -1
     cidr_blocks = [aws_vpc.main[count.index].cidr_block]
   }
-    ingress {
+ingress {
     from_port   = "-1"
     to_port     = "-1"
     protocol    = "ICMP"
     cidr_blocks = var.trusted_cidr
   }
-  egress {
+egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-  }
+}
 
-  tags    = {
+tags    = {
     Name  = "controller_sg"
     owner = var.owner
   }

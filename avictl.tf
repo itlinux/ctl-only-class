@@ -35,7 +35,7 @@ resource "aws_instance" "avi-controller" {
   key_name               = aws_key_pair.generated_key[floor(count.index / var.avi_controller)].key_name
   vpc_security_group_ids = [aws_security_group.controller[floor(count.index / var.avi_controller)].id]
   tags = {
-    Name            = format("%s-avi_controller-%0d", random_id.id[count.index % var.avi_controller].hex, count.index)
+    Name            = format("%s-avi_controller-${var.avi_ver}-%0d", random_id.id[count.index % var.avi_controller].hex, count.index)
     dept            = var.department_name
     shutdown_policy = var.shutdown_rules
     owner           = var.owner

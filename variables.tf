@@ -1,15 +1,19 @@
+
 variable "trusted_cidr" {
   description = "cidr block of addresses trusted for access to the kubernetes API server"
 }
 variable "number_of_clusters" {
   description = "This will be used as an Avi Controller count as well"
-  default     = 2
+  default     = 1
 }
 variable "avi_controller" {
-  default = 2
+  default = 1
 }
 variable "availability_zone" {
   default = "us-west-1a"
+}
+variable "jumpbox_per_cluster" {
+  default = 1
 }
 #region and az need to match
 variable "region" {
@@ -18,7 +22,7 @@ variable "region" {
 
 variable "generated_key_name" {
   type        = string
-  default     = "ctl-k8s-genkey"
+  default     = "demo-ctl-genkey"
   description = "Keypair gen by Terraform"
 }
 
@@ -42,7 +46,8 @@ variable "department_name" {
   default = "FSA TEAM"
 }
 variable "iam_profile" {
-  default = "remo-avi-controller"
+  default = "changmerole_summit2022"
+  # default = "remo-avi-controller"
 }
 variable "image-size" {
   description = "Image size"
@@ -50,19 +55,33 @@ variable "image-size" {
 }
 variable "ami-image" {
   default = {
-    us-west-1 = "ami-0203558b1728838f9" # 21.1.3
-    #us-west-1 = "ami-03baad459ee4a3980"
+    #us-west-1 = "ami-0203558b1728838f9" # 21.1.3
+    us-west-1 = "ami-0290a8fd34117c3bb" #ami-03baad459ee4a3980 20.1.8
     #us-west-2 =  "ami-04d08b852b47a5876"   # ami-0ab212620dcc8021b"
     #us-west-2 =  "ami-0451e26f70764fc9e"   # ami-0ab212620dcc8021b"
     #us-west-2 = "ami-17ba2e6f"
   }
+}
+variable "avi_ver" {
+  description = "matching the above ami-image"
+  default     = "20.1.8"
 }
 variable "base_cidr_block" {
   default = "10.0.0.0/16"
 }
 variable "sg_ports" {
   type        = list(number)
-  description = "list of ingress ports"
+  description = "list of TCP ingress ports"
   default     = [22, 443,80, 8443, 123]
 }
-
+variable "sg_ports_udp" {
+  type        = list(number)
+  description = "list of UDP ingress ports"
+  default     = [53]
+}
+variable "UDP_Ports_IP_ALLOWED" {
+  default = ["0.0.0.0/0"]
+}
+variable "department" {
+  default = "SA Team"
+}
