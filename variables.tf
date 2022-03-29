@@ -85,3 +85,6 @@ variable "UDP_Ports_IP_ALLOWED" {
 variable "department" {
   default = "SA Team"
 }
+variable "jumpbox_flavor" {
+  default = "t2.micro"
+}

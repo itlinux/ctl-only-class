@@ -22,7 +22,7 @@ resource "aws_eip" "jumpbox" {
 resource "aws_instance" "jumpbox" {
   count                  = var.number_of_clusters * var.jumpbox_per_cluster
   ami                    = data.aws_ami.latest-ubuntu.id
-  instance_type          = "t2.micro"
+  instance_type          = var.jumpbox_flavor
   key_name               = aws_key_pair.generated_key[floor(count.index / var.avi_controller)].key_name
   vpc_security_group_ids = [aws_security_group.controller[floor(count.index / var.avi_controller)].id]
   subnet_id              = aws_subnet.main[floor(count.index / var.avi_controller)].id 
