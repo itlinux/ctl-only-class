@@ -7,6 +7,9 @@ output "jumpbox_public_ip" {
 output "avi-controller_private_ip" {
   value = aws_eip.avi-controller[*].private_ip
 }
+output "jumpbox_private_ip" {
+  value = aws_eip.jumpbox[*].private_ip
+}
 output "avi-controller_public_dns_name" {
   value = aws_eip.avi-controller[*].public_dns
 }

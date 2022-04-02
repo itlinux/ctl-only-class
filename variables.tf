@@ -46,8 +46,7 @@ variable "department_name" {
   default = "FSA TEAM"
 }
 variable "iam_profile" {
-  default = "changmerole_summit2022"
-  # default = "remo-avi-controller"
+  default = "remo-avi-controller"
 }
 variable "image-size" {
   description = "Image size"
@@ -87,4 +86,8 @@ variable "department" {
 }
 variable "jumpbox_flavor" {
   default = "t2.micro"
+}
+variable "avi_name" {
+  default     = "tfdemo"
+  description = "this var is used in the format name and used in the network option so format will have random + this name"
 }

@@ -7,14 +7,14 @@ resource "aws_vpc" "main" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = format("%s-ceots2022", random_id.id[count.index].hex)
+    Name = format("%s-${var.avi_name}", random_id.id[count.index].hex)
   }
 }
 resource "aws_internet_gateway" "igw" {
   count  = var.number_of_clusters
   vpc_id = aws_vpc.main[count.index].id
   tags = {
-    Name = format("%s-coets2022", random_id.id[count.index].hex)
+    Name = format("%s-${var.avi_name}", random_id.id[count.index].hex)
   }
 }
 resource "aws_subnet" "main" {
@@ -24,7 +24,7 @@ resource "aws_subnet" "main" {
   availability_zone = var.availability_zone
 
   tags = {
-    Name = format("%s-ceots2022", random_id.id[count.index].hex)
+    Name = format("%s-${var.avi_name}", random_id.id[count.index].hex)
   }
 }
 
@@ -36,7 +36,7 @@ resource "aws_route_table" "main" {
     gateway_id = aws_internet_gateway.igw[count.index].id
   }
   tags = {
-    Name = format("%s-coets2022", random_id.id[count.index].hex)
+    Name = format("%s-${var.avi_name}", random_id.id[count.index].hex)
   }
 }
 resource "aws_route_table_association" "subnet-association" {
